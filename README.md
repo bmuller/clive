@@ -1,15 +1,18 @@
 # clive
 
-I'm an app. Or maybe I'm a library? I haven't decided yet. 
-
-The choice is up to you!
+Clive is a clojure library for interacting with Hive via Thrift.
 
 ## Usage
+Add the following to your project.clj:
 
-FIXME
+    [clive "0.1.0-SNAPSHOT"]
 
-## License
+Example usage:
 
-Copyright © 2012 FIXME
+    (open "host" 10000)
+    (fetchall "describe some_table")
+    (close)
 
-Distributed under the Eclipse Public License, the same as Clojure.
+Or, to do it all in one line:
+
+    (openclose "host" 10000 (fetchall "describe some_table"))
