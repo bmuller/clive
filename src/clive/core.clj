@@ -32,27 +32,6 @@
   (.fetchAll @_connection))
 
 (defmacro openclose
-  [host port & body]
-  `(open host port)
-  `(do ~@body)
-  `(close)
-  )
-  
-(defn -main
-  [& args]
-  (openclose "b57" 10000 (println (fetch-all "describe deals_production_people"))))
-
-
-;(defn -main
-;  [& args]
-;  (connect "b57" 10000)
-;  (println (fetch-all "describe deals_production_people"))
-;  (disconnect))
-
-;(defn -main
-;  [& args]
-;  (with-open [sock (hive-socket "b57" 10000)]
-;    (let [client (hive-client sock)
-;          result (.execute client "describe deals_production_people")]
-;          (.fetchAll client))))
-
+  [ host port & body ]
+  `(do (open ~host ~port)
+       (let [result# ~@body] close result#)))
