@@ -26,12 +26,29 @@
   (println "Closing connection")
   (.close @_socket))
 
-(defn fetch-all
+(defn fetch-all*
   [q]
   (.execute @_connection q)
   (.fetchAll @_connection))
+
+(defn fetch-all
+  [q]
+  (map #(-> % (.split "\\t") seq) (fetch-all* q)))
 
 (defmacro openclose
   [ host port & body ]
   `(do (open ~host ~port)
        (let [result# ~@body] close result#)))
+
+
+(defn tab-sep-hash
+  [ group ]
+  (reduce merge
+          (map #(let [pair (-> % .trim (.split "\\t"))]
+                  (assoc {} (first pair) (second pair)))
+               group)))
+          
+(defn describe
+  [tablename]
+  (-> (str "describe " tablename) fetch-all tab-sep-hash))
+
