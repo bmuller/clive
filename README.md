@@ -9,10 +9,4 @@ Add the following to your project.clj:
 
 Example usage:
 
-    (open "host" 10000)
-    (fetchall "describe some_table")
-    (close)
-
-Or, to do it all in one line:
-
-    (openclose "host" 10000 (fetchall "describe some_table"))
+    (raw-query {:host "ahost" :port 10000} "select * from atable limit 1")
